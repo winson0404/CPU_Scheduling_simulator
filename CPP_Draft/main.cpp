@@ -32,7 +32,9 @@ int main()
         priority.push_back(input3);
     }
 
-    round_robin(numProcess, 3, burst, arrival);
+    std::cout << "\n";
+
+    round_robin(numProcess, 2, burst, arrival);
     preemptive_sjf(numProcess, burst, arrival);
     non_preemptive_sjf(numProcess, burst, arrival);
     non_preemptive_priority(numProcess, burst, arrival, priority);

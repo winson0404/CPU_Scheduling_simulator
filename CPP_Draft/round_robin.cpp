@@ -4,6 +4,7 @@
 #include <queue>
 #include <iostream>
 #include <limits>
+#include <iomanip>
 
 void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vector<int> arrival)
 {
@@ -14,6 +15,10 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
     std::string secondLine = "";
     std::queue<int> q;
 
+    std::vector<int> turnaround(numProcess);
+    std::vector<int> waiting(numProcess);
+    std::vector<int> initialArrival = arrival;
+    std::vector<int> initialBurst = burst;
 
     int minArrival = std::numeric_limits<int>::max();
     for(int i = 0; i < numProcess; ++i)
@@ -98,6 +103,8 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
         burst[q.front()]--;
         if(burst[q.front()] == 0)
         {
+            turnaround[q.front()] = currentTime + minArrival - initialArrival[q.front()];
+            waiting[q.front()] = turnaround[q.front()] - initialBurst[q.front()];
             firstLine += " P" + std::to_string(q.front()) + " |";
             if(currentTime >= 10)
             {
@@ -128,7 +135,36 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
         count++;
     }
 
+    double avgTurnaround = 0;
+    double avgWaiting = 0;
+    for(int i = 0; i < numProcess; ++i)
+    {
+        avgTurnaround += turnaround[i];
+        avgWaiting += waiting[i];
+    }
+    avgTurnaround /= numProcess;
+    avgWaiting /= numProcess;
+
     std::cout << "Round Robin (Q = " << quantum << ")\n";
     std::cout << firstLine << "\n";
     std::cout << secondLine << "\n\n";
+    std::cout << std::setw(20);
+    std::cout << std::left << "Turnaround Time : ";
+    for(int time : turnaround)
+    {
+        std::cout.width(2);
+        std::cout << time << " ";
+    }
+    std::cout << std::setw(21);
+    std::cout << std::left << "\nWaiting Time : ";
+    for(int time : waiting)
+    {
+        std::cout.width(2);
+        std::cout << time << " ";
+    }
+
+    std::cout << std::setw(32) << "\n\nAverage Turnaround Time : " << avgTurnaround << "\n";
+    std::cout << std::setw(30) << "Average Waiting Time : " << avgWaiting << "\n";
+
+    std::cout << "\n\n";
 }
