@@ -3,6 +3,7 @@
 #include <string>
 #include <queue>
 #include <iostream>
+#include <limits>
 
 void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vector<int> arrival)
 {
@@ -10,13 +11,20 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
     int totalTime = 0;
     int count = 1;
     std::string firstLine = "|";
-    std::string secondLine = "0";
+    std::string secondLine = "";
     std::queue<int> q;
 
+
+    int minArrival = std::numeric_limits<int>::max();
     for(int i = 0; i < numProcess; ++i)
     {
+        if(arrival[i] < minArrival)
+        {
+            minArrival = arrival[i];
+        }
         totalTime += burst[i];
     }
+    secondLine += std::to_string(minArrival);
 
     // Checking for multiple processes arriving at time 0 and arranging them according to burst time.
     std::vector<int> temp_pr;
@@ -93,11 +101,11 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
             firstLine += " P" + std::to_string(q.front()) + " |";
             if(currentTime >= 10)
             {
-                secondLine = secondLine + "   " + std::to_string(currentTime);
+                secondLine = secondLine + "   " + std::to_string(currentTime + minArrival);
             }
             else
             {
-                secondLine = secondLine + "    " + std::to_string(currentTime);
+                secondLine = secondLine + "    " + std::to_string(currentTime + minArrival);
             }
             q.pop();
             count = 0;
@@ -107,11 +115,11 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
             firstLine += " P" + std::to_string(q.front()) + " |";
             if(currentTime >= 10)
             {
-                secondLine = secondLine + "   " + std::to_string(currentTime);
+                secondLine = secondLine + "   " + std::to_string(currentTime + minArrival);
             }
             else
             {
-                secondLine = secondLine + "    " + std::to_string(currentTime);
+                secondLine = secondLine + "    " + std::to_string(currentTime + minArrival);
             }
             q.push(q.front());
             q.pop();

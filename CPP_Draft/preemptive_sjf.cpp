@@ -9,19 +9,27 @@ void preemptive_sjf(int numProcess, std::vector<int> burst, std::vector<int> arr
     int currentTime = 0;
     int totalTime = 0;
     std::string firstLine = "|";
-    std::string secondLine = "0";
+    std::string secondLine = "";
     std::vector<int> arrived(numProcess);
-    int currentProcess = -1;
+    int currentProcess = 0;
     int currentBurst = std::numeric_limits<int>::max();
 
+    int minArrival = std::numeric_limits<int>::max();
     for(int i = 0; i < numProcess; ++i)
     {
+        if(arrival[i] < minArrival)
+        {
+            minArrival = arrival[i];
+        }
         totalTime += burst[i];
     }
+    secondLine += std::to_string(minArrival);
+    totalTime += minArrival;
+    currentTime += minArrival;
 
     for(int i = 0; i < numProcess; ++i)
     {
-        if(arrival[i] == 0)
+        if(arrival[i] == minArrival)
         {
             arrived[i] = 1;
             if(burst[i] <= currentBurst)

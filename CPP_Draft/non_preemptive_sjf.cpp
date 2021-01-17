@@ -9,13 +9,23 @@ void non_preemptive_sjf(int numProcess, std::vector<int> burst, std::vector<int>
     int currentTime = 0;
     int totalTime = 0;
     std::string firstLine = "|";
-    std::string secondLine = "0";
+    std::string secondLine = "";
     std::vector<int> arrived(numProcess);
+    std::vector<int> turnaround(numProcess);
+    std::vector<int> initialArrival = arrival;
 
+    int minArrival = std::numeric_limits<int>::max();
     for(int i = 0; i < numProcess; ++i)
     {
+        if(arrival[i] < minArrival)
+        {
+            minArrival = arrival[i];
+        }
         totalTime += burst[i];
     }
+    secondLine += std::to_string(minArrival);
+    totalTime += minArrival;
+    currentTime += minArrival;
 
     while(currentTime < totalTime)
     {
