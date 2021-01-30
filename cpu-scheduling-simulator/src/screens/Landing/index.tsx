@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -7,25 +7,43 @@ import Link from "@material-ui/core/Link";
 import { useStyles } from "./style";
 import Container from "@material-ui/core/Container";
 import Form from "../../components/Form";
-import {FormInput} from "../../types"
-import { AnyNsRecord } from "dns";
+import { FormInput } from "../../types";
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
-    const [inputField, setInputField] = useState<FormInput[]>([{
-        process:'a',
-        burstTime:'b',
-        arrivalTime:'c',
-        priority:'d'
-	}])
-	
-	const handleChangeInput = (index:number, e:any) =>{
-		const values:any = {...inputField};
+	const [inputField, setInputField] = useState([
+		{
+			process: "",
+			burstTime: "",
+			arrivalTime: "",
+			priority: "",
+		},
+	]);
+
+	const handleChangeInput = (index: number, e: any) => {
+		const values: any = { ...inputField };
 		values[index][e.target.name] = e.target.value;
-		console.log(values);
-		debugger;
 		setInputField(values);
-		debugger;
+	};
+
+	const handleSubmit = (e: any) => {
+		e.preventDefault();
+		console.log("inputFields==>", inputField);
+	};
+
+	const handleAddFields = () => {
+		// console.log([...inputField,{ process: "", burstTime: "", arrivalTime: "", priority: "" }])
+		setInputField([
+			...inputField,
+			{ process: "", burstTime: "", arrivalTime: "", priority: "" },
+		]);
+	};
+
+	const handldeRemoveField = (index:number) =>{
+		const values = [...inputField];
+		values?.splice(index,1);
+		if (values.length > 0)
+			setInputField(values);
 	}
 
 	return (
@@ -69,7 +87,13 @@ const Landing: React.FC = () => {
 					CPU scheduling simulator
 				</Typography>
 			</Container>
-      	<Form inputField = {inputField} handleChangeInput={handleChangeInput}/>
+			<Form
+				inputField={inputField}
+				handleChangeInput={handleChangeInput}
+				handleSubmit={handleSubmit}
+				handldeRemoveField={handldeRemoveField}
+				handleAddFields={handleAddFields}
+			/>
 		</>
 	);
 };

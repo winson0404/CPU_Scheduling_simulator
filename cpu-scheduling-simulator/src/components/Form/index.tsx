@@ -4,15 +4,19 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import { FormInput } from "../../types";
 import useStyles from './styles';
+import {map} from "lodash";
 
 interface Props{
-    inputField?: FormInput[]
+    inputField?:any
     handleChangeInput:any
+    handleSubmit:any
+    handleAddFields:any
+    handldeRemoveField:any
 }
 
 const Form:React.FC<Props> = (props) => {
     const classes = useStyles();
-    const { inputField, handleChangeInput } = props;
+    const { inputField, handleChangeInput,handleSubmit,handleAddFields,handldeRemoveField } = props;
     return(
         <Container>
             <Typography
@@ -23,10 +27,9 @@ const Form:React.FC<Props> = (props) => {
             >
                 Enter processes below:
             </Typography>
-            <form className={classes.root}>
-                {inputField?.map((inputField,index)=>(
+            <form className={classes.root} onSubmit={handleSubmit}>
+                {map(inputField,(inputField,index)=>(
                     <div key = {index}>
-                        {console.log("inputField===>",inputField.process)}
                         <TextField 
                             name = "process"
                             label = "Process"
@@ -55,15 +58,15 @@ const Form:React.FC<Props> = (props) => {
                             value = {inputField?.priority}
                             onChange={e=>handleChangeInput(index,e)}
                         />
-                        <IconButton>
+                        <IconButton onClick = {()=>handldeRemoveField(index)}>
                             <RemoveIcon/>
                         </IconButton>
-                        <IconButton>
+                        <IconButton onClick={()=>handleAddFields()}>
                             <AddIcon/>
                         </IconButton>
                     </div>
                 ))}
-                <Button className={classes.generateButton} variant="outlined" type="submit">Generate</Button>
+                <Button className={classes.generateButton} variant="outlined" type="submit" onClick = {handleSubmit}>Generate</Button>
             </form>
         </Container>
     )
