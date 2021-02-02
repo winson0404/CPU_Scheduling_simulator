@@ -6,44 +6,44 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import { useStyles } from "./style";
 import Container from "@material-ui/core/Container";
-import Form from "../../components/Form";
+import Forms from "../../components/Form";
 import { FormInput } from "../../types";
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
-	const [inputField, setInputField] = useState([
+	const [inputField, setInputField] = useState({processes:[
 		{
 			process: "",
 			burstTime: "",
 			arrivalTime: "",
 			priority: "",
 		},
-	]);
+	]});
 
 	const handleChangeInput = (index: number, e: any) => {
-		const values: any = { ...inputField };
+		const values: any = { ...inputField.processes };
 		values[index][e.target.name] = e.target.value;
-		setInputField(values);
+		setInputField({processes:values});
 	};
 
 	const handleSubmit = (e: any) => {
 		e.preventDefault();
-		console.log("inputFields==>", inputField);
+		console.log("inputFields==>", inputField.processes);
 	};
 
 	const handleAddFields = () => {
 		// console.log([...inputField,{ process: "", burstTime: "", arrivalTime: "", priority: "" }])
-		setInputField([
-			...inputField,
+		setInputField({processes:[
+			...inputField.processes,
 			{ process: "", burstTime: "", arrivalTime: "", priority: "" },
-		]);
+		]});
 	};
 
 	const handldeRemoveField = (index:number) =>{
-		const values = [...inputField];
+		const values = [...inputField.processes];
 		values?.splice(index,1);
 		if (values.length > 0)
-			setInputField(values);
+			setInputField({processes:values});
 	}
 
 	return (
@@ -87,7 +87,7 @@ const Landing: React.FC = () => {
 					CPU scheduling simulator
 				</Typography>
 			</Container>
-			<Form
+			<Forms
 				inputField={inputField}
 				handleChangeInput={handleChangeInput}
 				handleSubmit={handleSubmit}
