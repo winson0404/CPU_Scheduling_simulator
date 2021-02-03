@@ -43,4 +43,7 @@ export const useStyles = makeStyles((theme) => ({
         paddingBottom: theme.spacing(6),
       },
     },
+    divider:{
+      marginBottom: theme.spacing(3)
+    }
   }));

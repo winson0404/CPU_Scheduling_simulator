@@ -7,44 +7,31 @@ import Link from "@material-ui/core/Link";
 import { useStyles } from "./style";
 import Container from "@material-ui/core/Container";
 import Forms from "../../components/Form";
+import Tables from "../../components/Table";
 import { FormInput } from "../../types";
+import { Divider } from "@material-ui/core";
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
-	const [inputField, setInputField] = useState({processes:[
-		{
-			process: "",
-			burstTime: "",
-			arrivalTime: "",
-			priority: "",
-		},
-	]});
-
-	const handleChangeInput = (index: number, e: any) => {
-		const values: any = { ...inputField.processes };
-		values[index][e.target.name] = e.target.value;
-		setInputField({processes:values});
+	const initialInputField = {
+		processes: [
+			{
+				process: "",
+				burstTime: "",
+				arrivalTime: "",
+				priority: "",
+			},
+		],
+		quantumValue: "",
 	};
 
-	const handleSubmit = (e: any) => {
-		e.preventDefault();
-		console.log("inputFields==>", inputField.processes);
-	};
+	const [gotData, setGotData] = useState<boolean>(false);
+	const [inputField, setInputField] = useState(initialInputField);
 
-	const handleAddFields = () => {
-		// console.log([...inputField,{ process: "", burstTime: "", arrivalTime: "", priority: "" }])
-		setInputField({processes:[
-			...inputField.processes,
-			{ process: "", burstTime: "", arrivalTime: "", priority: "" },
-		]});
+	const handleSubmitForm = (data: any) => {
+		setInputField(data);
+		setGotData(true);
 	};
-
-	const handldeRemoveField = (index:number) =>{
-		const values = [...inputField.processes];
-		values?.splice(index,1);
-		if (values.length > 0)
-			setInputField({processes:values});
-	}
 
 	return (
 		<>
@@ -87,13 +74,15 @@ const Landing: React.FC = () => {
 					CPU scheduling simulator
 				</Typography>
 			</Container>
-			<Forms
-				inputField={inputField}
-				handleChangeInput={handleChangeInput}
-				handleSubmit={handleSubmit}
-				handldeRemoveField={handldeRemoveField}
-				handleAddFields={handleAddFields}
-			/>
+			<Container component="main" className={classes.heroContent}>
+				<Forms
+					initialInputField={initialInputField}
+					inputField={inputField}
+					handleSubmitForm={handleSubmitForm}
+				/>
+				<Divider variant="middle" className= {classes.divider}/>
+				{gotData ? <Tables inputField={inputField} /> : null}
+			</Container>
 		</>
 	);
 };

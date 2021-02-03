@@ -17,23 +17,29 @@ import * as yup from "yup";
 // const validationSchema = yup.object({
 // 	processes: yup
 // 		.array()
-// 		.of(yup.object().shape({ process: yup.string().required() })),
+// 		.of(yup.object().shape({ 
+// 			process: yup.string().required(),
+// 			burstTime: yup.string().required() ,
+// 			arrivalTime: yup.string().required() ,
+// 			priority: yup.string().required()  })),
 // });
 
 interface Props {
 	inputField?: any;
-	handleChangeInput: any;
-	handleSubmit: any;
-	handleAddFields: any;
-	handldeRemoveField: any;
+	initialInputField?: any;
+	handleChangeInput?: any;
+	handleSubmitForm?: any;
+	handleAddFields?: any;
+	handldeRemoveField?: any;
 }
 
-const Input = ({ field, label, form: { errors } }:any) => {
+const Input = ({ field, label, form: { errors } }: any) => {
 	const errorMessage = getIn(errors, field.name);
 
 	return (
 		<>
 			<TextField {...field} label={label} variant="filled" />
+			{/* TODO: style below error message to let it work for validationSchema */}
 			{errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
 		</>
 	);
@@ -41,22 +47,23 @@ const Input = ({ field, label, form: { errors } }:any) => {
 
 const Forms: React.FC<Props> = (props) => {
 	const classes = useStyles();
-	const { inputField } = props;
+	const { initialInputField, handleSubmitForm } = props;
 	return (
 		<Container>
 			<Typography variant="h5" align="left" color="textSecondary" component="p">
 				Enter processes below:
 			</Typography>
 			<Formik
-				initialValues={inputField}
-				onSubmit={(data) => {
-					console.log(data);
-				}}
+				initialValues={initialInputField}
+				onSubmit={(data) => handleSubmitForm(data)}
 				// validationSchema={validationSchema}
 			>
 				{({ values, handleSubmit, isSubmitting }) => (
 					<Form onSubmit={handleSubmit}>
-						<FieldArray name="processes">
+						<div className = {classes.root}>
+							<Field name="quantumValue" component={Input} label = "Quantum"/>
+						</div>
+						<FieldArray name="processes" >
 							{({ push, remove }) => (
 								<div>
 									<Button
@@ -70,32 +77,31 @@ const Forms: React.FC<Props> = (props) => {
 										}
 										className={classes.generateButton}
 										variant="outlined"
-										type="submit"
 										// disabled={isSubmitting}
 									>
 										Add Process
 									</Button>
-									<div>
-										{map(values.processes, (inputField, index: number) => {
+									<div className={classes.root}>
+										{map(values.processes, (data, index: number) => {
 											return (
 												<div key={index}>
 													<Field
-                                                        label= "Process"
+														label="Process"
 														name={`processes[${index}].process`}
 														component={Input}
 													/>
 													<Field
-                                                        label= "Burst Time"
+														label="Burst Time"
 														name={`processes[${index}].burstTime`}
 														component={Input}
 													/>
 													<Field
-                                                        label= "Arrival Time"
+														label="Arrival Time"
 														name={`processes[${index}].arrivalTime`}
 														component={Input}
 													/>
 													<Field
-                                                        label= "Priority"
+														label="Priority"
 														name={`processes[${index}].priority`}
 														component={Input}
 													/>
@@ -117,7 +123,6 @@ const Forms: React.FC<Props> = (props) => {
 						>
 							Generate
 						</Button>
-						<pre>{JSON.stringify(values.processes, null, 2)}</pre>
 					</Form>
 				)}
 			</Formik>
