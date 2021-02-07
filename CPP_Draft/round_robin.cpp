@@ -10,7 +10,7 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
 {
     int currentTime = 0;
     int totalTime = 0;
-    int count = 1;
+    int count = 0;
     std::string firstLine = "|";
     std::string secondLine = "";
     std::queue<int> q;
@@ -40,6 +40,7 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
         {
             temp_pr.push_back(i);
             temp_burst.push_back(burst[i]);
+            count = 1;
         }
     }
 
@@ -100,19 +101,21 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
             temp_burst.erase(temp_burst.begin() + minIndex);
         }
 
-        burst[q.front()]--;
+        if(currentTime > minArrival)
+            burst[q.front()]--;
+            
         if(burst[q.front()] == 0)
         {
-            turnaround[q.front()] = currentTime + minArrival - initialArrival[q.front()];
+            turnaround[q.front()] = currentTime  - initialArrival[q.front()];
             waiting[q.front()] = turnaround[q.front()] - initialBurst[q.front()];
             firstLine += " P" + std::to_string(q.front()) + " |";
             if(currentTime >= 10)
             {
-                secondLine = secondLine + "   " + std::to_string(currentTime + minArrival);
+                secondLine = secondLine + "   " + std::to_string(currentTime);
             }
             else
             {
-                secondLine = secondLine + "    " + std::to_string(currentTime + minArrival);
+                secondLine = secondLine + "    " + std::to_string(currentTime);
             }
             q.pop();
             count = 0;
@@ -122,11 +125,11 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
             firstLine += " P" + std::to_string(q.front()) + " |";
             if(currentTime >= 10)
             {
-                secondLine = secondLine + "   " + std::to_string(currentTime + minArrival);
+                secondLine = secondLine + "   " + std::to_string(currentTime);
             }
             else
             {
-                secondLine = secondLine + "    " + std::to_string(currentTime + minArrival);
+                secondLine = secondLine + "    " + std::to_string(currentTime);
             }
             q.push(q.front());
             q.pop();
