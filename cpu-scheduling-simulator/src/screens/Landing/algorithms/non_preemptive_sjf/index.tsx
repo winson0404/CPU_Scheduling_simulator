@@ -55,7 +55,7 @@ export const nonPremptiveSJF = (data: any) => {
 		waiting[minIndex] = turnaround[minIndex] - initialBurst[minIndex];
 		burst[minIndex] = 0;
 
-		firstLine.push((minIndex+1).toString());
+		firstLine.push((minIndex).toString());
 		secondLine.push(currentTime.toString());
 	}
 
