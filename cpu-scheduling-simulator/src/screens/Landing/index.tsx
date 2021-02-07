@@ -10,6 +10,7 @@ import Forms from "../../components/Form";
 import Tables from "../../components/Table";
 import { FormInput } from "../../types";
 import { Divider } from "@material-ui/core";
+import {nonPremptiveSJF} from "./algorithms"
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
@@ -81,7 +82,11 @@ const Landing: React.FC = () => {
 					handleSubmitForm={handleSubmitForm}
 				/>
 				<Divider variant="middle" className= {classes.divider}/>
-				{gotData ? <Tables inputField={inputField} /> : null}
+				{gotData ? 
+				<>
+					<Tables inputField={inputField} />
+					{console.log(nonPremptiveSJF(inputField.processes))}
+				</> : null}
 			</Container>
 		</>
 	);
