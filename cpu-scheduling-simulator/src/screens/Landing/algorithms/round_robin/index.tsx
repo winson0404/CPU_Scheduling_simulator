@@ -1,9 +1,11 @@
 // passs in this format: [{process:'1', burstTime'2',arrivalTime:'3',priority:'4'},{process:'1', burstTime'2',arrivalTime:'3',priority:'4'}]
-export const nonPreemptiveSJF = (data: any) => {
+export const roundRobin = (data: any, quantum:number) => {
 	// const {process, burstTime, arrivalTime} = data;
 
 	let currentTime: number = 0;
 	let totalTime: number = 0;
+    let count:number = 1;
+    let q = [];
 	let firstLine:string[] = [];
 	let secondLine: string[] = [];
 	let burst: number[] = [];
@@ -31,32 +33,37 @@ export const nonPreemptiveSJF = (data: any) => {
 		totalTime += burst[i];
 	}
 	secondLine.push(minArrival.toString());
-	totalTime += minArrival;
-	currentTime += minArrival;
+	
+    let temp_pr = [];
+    let temp_burst =[];
 
-	while (currentTime < totalTime) {
-		for (let i = 0; i < numProcess; i++) {
-			if (arrival[i] <= currentTime) {
-				arrived[i] = burst[i];
-			}
-		}
+    for(let i = 0; i < numProcess; ++i)
+    {
+        if(arrival[i] === 0)
+        {
+            temp_pr.push(i);
+            temp_burst.push(burst[i]);
+        }
+    }
 
-		let minBurst = Number.MAX_VALUE;
-		let minIndex = 0;
-		for (let i = 0; i < numProcess; i++) {
-			if (arrived[i] !== 0 && arrived[i] < minBurst) {
-				console.log("im here")
-				minBurst = arrived[i];
-				minIndex = i;
-			}
-		}
-		currentTime += minBurst;
-		turnaround[minIndex] = currentTime - initialArrival[minIndex];
-		waiting[minIndex] = turnaround[minIndex] - initialBurst[minIndex];
-		burst[minIndex] = 0;
+	while (temp_pr.length) {
+		let minBurst = temp_burst[0];
+        let minPr = temp_pr[0];
+        let minIndex = 0;
 
-		firstLine.push((minIndex).toString());
-		secondLine.push(currentTime.toString());
+        for(let i = 1; i <temp_burst.length; ++i)
+        {
+            if(temp_burst[i] < minBurst)
+            {
+                minBurst = temp_burst[i];
+                minPr = temp_pr[i];
+                minIndex = i;
+            }
+        }
+        q.push(temp_pr[minIndex]);
+
+        temp_pr.splice(temp_pr[0] + minIndex);
+        temp_burst.splice(temp_pr[0] + minIndex);
 	}
 
 	let avgTurnAround = 0;

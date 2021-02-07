@@ -10,7 +10,7 @@ import Forms from "../../components/Form";
 import Tables from "../../components/Table";
 import { FormInput } from "../../types";
 import { Divider } from "@material-ui/core";
-import {nonPremptiveSJF,preemptiveSJF} from "./algorithms"
+import {nonPreemptiveSJF,preemptiveSJF,nonPreemptivePriority, preemptivePriority} from "./algorithms"
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
@@ -85,7 +85,7 @@ const Landing: React.FC = () => {
 				{gotData ? 
 				<>
 					<Tables inputField={inputField} />
-					{console.log(preemptiveSJF(inputField.processes))}
+					{console.log(preemptivePriority(inputField.processes))}
 				</> : null}
 			</Container>
 		</>
