@@ -78,7 +78,7 @@ void non_preemptive_priority(int numProcess, std::vector<int> burst, std::vector
     avgTurnaround /= numProcess;
     avgWaiting /= numProcess;
 
-    std::cout << "Non Preemptive SJF\n";
+    std::cout << "Non Preemptive Priority\n";
     std::cout << firstLine << "\n";
     std::cout << secondLine << "\n\n";
     std::cout << std::setw(20);
