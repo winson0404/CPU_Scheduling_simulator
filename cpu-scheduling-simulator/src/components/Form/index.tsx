@@ -19,8 +19,7 @@ const validationSchema = yup.object({
 		.array()
 		.of(yup.object().shape({ 
 			burstTime: yup.string().required("Required field!") ,
-			arrivalTime: yup.string().required("Required field!") ,
-			priority: yup.string().required("Required field!")})),
+			arrivalTime: yup.string().required("Required field!")})),
 });
 
 interface Props {
@@ -38,7 +37,6 @@ const Input = ({ field, label, form: { errors } }: any) => {
 	return (
 		<div>
 			<TextField {...field} label={label} variant="filled"/>
-			{/* TODO: style below error message to let it work for validationSchema */}
 			{errorMessage && <div style={{ color: "red", paddingLeft:"10px"}}>{errorMessage}</div>}
 		</div>
 	);
