@@ -103,10 +103,10 @@ void round_robin(int numProcess, int quantum, std::vector<int> burst, std::vecto
 
         if(currentTime > minArrival)
             burst[q.front()]--;
-            
+
         if(burst[q.front()] == 0)
         {
-            turnaround[q.front()] = currentTime  - initialArrival[q.front()];
+            turnaround[q.front()] = currentTime - initialArrival[q.front()];
             waiting[q.front()] = turnaround[q.front()] - initialBurst[q.front()];
             firstLine += " P" + std::to_string(q.front()) + " |";
             if(currentTime >= 10)

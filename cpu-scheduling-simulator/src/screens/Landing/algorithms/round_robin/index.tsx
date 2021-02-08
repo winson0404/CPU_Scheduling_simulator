@@ -1,17 +1,14 @@
-// passs in this format: [{process:'1', burstTime'2',arrivalTime:'3',priority:'4'},{process:'1', burstTime'2',arrivalTime:'3',priority:'4'}]
 export const roundRobin = (data: any, quantum:number) => {
-	// const {process, burstTime, arrivalTime} = data;
 
 	let currentTime: number = 0;
 	let totalTime: number = 0;
-    let count:number = 1;
-    let q = [];
+    let count:number = 0;
+    let q:number[] = [];
 	let firstLine:string[] = [];
 	let secondLine: string[] = [];
 	let burst: number[] = [];
 	let arrival: number[] = [];
 	let numProcess = data.length;
-	let arrived: number[] = new Array(numProcess).fill(0);
 	let turnaround: number[] = new Array(numProcess).fill(0);
 	let waiting: number[] = new Array(numProcess).fill(0);
 	let initialArrival: number[] = [];
@@ -34,8 +31,8 @@ export const roundRobin = (data: any, quantum:number) => {
 	}
 	secondLine.push(minArrival.toString());
 	
-    let temp_pr = [];
-    let temp_burst =[];
+    let temp_pr:number[] =  new Array();
+    let temp_burst:number[] = new Array();
 
     for(let i = 0; i < numProcess; ++i)
     {
@@ -43,8 +40,11 @@ export const roundRobin = (data: any, quantum:number) => {
         {
             temp_pr.push(i);
             temp_burst.push(burst[i]);
+            count = 1;
+            
         }
     }
+
 
 	while (temp_pr.length) {
 		let minBurst = temp_burst[0];
@@ -61,10 +61,77 @@ export const roundRobin = (data: any, quantum:number) => {
             }
         }
         q.push(temp_pr[minIndex]);
-
-        temp_pr.splice(temp_pr[0] + minIndex);
-        temp_burst.splice(temp_pr[0] + minIndex);
+        temp_pr.splice(minIndex,1);
+        temp_burst.splice(minIndex,1);
 	}
+    
+    //Main Loop
+    while(currentTime <= totalTime)
+    {
+        currentTime++;
+
+        // Checking for multiple processes arriving at the same and arranging them according to burst time.
+        for(let i = 0; i < numProcess; ++i)
+        {
+            if(arrival[i] === currentTime)
+            {
+                temp_pr.push(i);
+                temp_burst.push(burst[i]);
+            }
+        }
+
+        while(temp_pr.length)
+        {
+            let minBurst = temp_burst[0];
+            let minPr = temp_pr[0];
+            let minIndex = 0;
+
+            for(let i = 1; i <temp_burst.length; ++i)
+            {
+                if(temp_burst[i] < minBurst)
+                {
+                    minBurst = temp_burst[i];
+                    minPr = temp_pr[i];
+                    minIndex = i;
+                }
+            }
+            q.push(temp_pr[minIndex]);
+
+            temp_pr.splice(minIndex, 1);
+            temp_burst.splice(minIndex,1);
+        }
+
+        if(currentTime > minArrival){
+            burst[q[0] === undefined?0:q[0]]--;
+        }
+
+        if(burst[q[0] === undefined?0:q[0]] === 0)
+        {
+            // console.log("q in if ",q[0] === undefined?0:q[0])
+            turnaround[q[0] === undefined?0:q[0]] = currentTime  - initialArrival[q[0] === undefined?0:q[0]];
+            waiting[q[0] === undefined?0:q[0]] = turnaround[q[0] === undefined?0:q[0]] - initialBurst[q[0] === undefined?0:q[0]];
+            firstLine.push((q[0] === undefined?0:q[0])?.toString());
+            if(true)
+            {
+                secondLine.push(currentTime.toString());
+            }
+            q.shift();
+            count = 0;
+        }
+        else if(count >= quantum)
+        {
+            // console.log("q in else if ",q[0] === undefined?0:q[0])
+            firstLine.push((q[0] === undefined?0:q[0])?.toString());
+            if(true)
+            {
+                secondLine.push(currentTime.toString());
+            }
+            q.push(q[0] === undefined?0:q[0]);
+            q.shift();
+            count = 0;
+        }
+        count++;
+    }
 
 	let avgTurnAround = 0;
 	let avgWaiting = 0;
