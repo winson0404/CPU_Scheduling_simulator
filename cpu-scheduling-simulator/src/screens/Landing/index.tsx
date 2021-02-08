@@ -8,9 +8,16 @@ import { useStyles } from "./style";
 import Container from "@material-ui/core/Container";
 import Forms from "../../components/Form";
 import Tables from "../../components/Table";
+import {NonPreemptiveSJF} from "../../components";
 import { FormInput } from "../../types";
 import { Divider } from "@material-ui/core";
-import {nonPreemptiveSJF,preemptiveSJF,nonPreemptivePriority, preemptivePriority, roundRobin} from "./algorithms"
+import {
+	nonPreemptiveSJF,
+	preemptiveSJF,
+	nonPreemptivePriority,
+	preemptivePriority,
+	roundRobin,
+} from "./algorithms";
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
@@ -81,12 +88,13 @@ const Landing: React.FC = () => {
 					inputField={inputField}
 					handleSubmitForm={handleSubmitForm}
 				/>
-				<Divider variant="middle" className= {classes.divider}/>
-				{gotData ? 
-				<>
-					<Tables inputField={inputField} />
-					{console.log(roundRobin(inputField.processes, parseInt(inputField.quantumValue)))}
-				</> : null}
+				<Divider variant="middle" className={classes.divider} />
+				{gotData ? (
+					<>
+						<Tables inputField={inputField} />
+						<NonPreemptiveSJF data={nonPreemptiveSJF(inputField.processes)}/>
+					</>
+				) : null}
 			</Container>
 		</>
 	);

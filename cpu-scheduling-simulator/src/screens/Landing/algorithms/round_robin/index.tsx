@@ -110,7 +110,7 @@ export const roundRobin = (data: any, quantum:number) => {
             // console.log("q in if ",q[0] === undefined?0:q[0])
             turnaround[q[0] === undefined?0:q[0]] = currentTime  - initialArrival[q[0] === undefined?0:q[0]];
             waiting[q[0] === undefined?0:q[0]] = turnaround[q[0] === undefined?0:q[0]] - initialBurst[q[0] === undefined?0:q[0]];
-            firstLine.push((q[0] === undefined?0:q[0])?.toString());
+            firstLine.push("P"+(q[0] === undefined?0:q[0])?.toString());
             if(true)
             {
                 secondLine.push(currentTime.toString());
@@ -121,7 +121,7 @@ export const roundRobin = (data: any, quantum:number) => {
         else if(count >= quantum)
         {
             // console.log("q in else if ",q[0] === undefined?0:q[0])
-            firstLine.push((q[0] === undefined?0:q[0])?.toString());
+            firstLine.push("P"+(q[0] === undefined?0:q[0])?.toString());
             if(true)
             {
                 secondLine.push(currentTime.toString());
@@ -147,6 +147,8 @@ export const roundRobin = (data: any, quantum:number) => {
 		timeSequence: secondLine,
 		avgTurnAround: avgTurnAround,
 		avgWaiting: avgWaiting,
+		turnAround: turnaround,
+		waiting: waiting
 	};
 
 	return output;

@@ -96,7 +96,7 @@ export const preemptivePriority = (data: any) => {
         }
         if(changed)
         {
-            firstLine.push(previousProcess.toString());
+            firstLine.push("P"+previousProcess.toString());
             if(true)
             {
                 secondLine.push(currentTime.toString());
@@ -125,6 +125,8 @@ export const preemptivePriority = (data: any) => {
 		timeSequence: secondLine,
 		avgTurnAround: avgTurnAround,
 		avgWaiting: avgWaiting,
+		turnAround: turnaround,
+		waiting: waiting
 	};
 
 	return output;

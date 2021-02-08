@@ -82,7 +82,7 @@ const Forms: React.FC<Props> = (props) => {
 										{map(values.processes, (data, index: number) => {
 											return (
 												<div key={index} className={classes.formContainer}>
-													<h1>P{index}: </h1>
+													<h2>P{index}: </h2>
 													<Field
 														label="Burst Time"
 														name={`processes[${index}].burstTime`}

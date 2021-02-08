@@ -34,7 +34,7 @@ const Tables: React.FC<Props> = (props: any) => {
 				<TableBody>
 					{map(inputField.processes,(row,i) => (
 						<TableRow key={i}>
-							<TableCell className={classes.headCell}>P{row.process}</TableCell>
+							<TableCell className={classes.headCell}>P{i}</TableCell>
 							<TableCell className={classes.bodyCell}>{row.burstTime}</TableCell>
 							<TableCell className={classes.bodyCell}>{row.arrivalTime}</TableCell>
 							<TableCell className={classes.bodyCell}>{row.priority}</TableCell>
