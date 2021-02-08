@@ -14,15 +14,13 @@ import { map } from "lodash";
 import { Formik, Form, FieldArray, FieldProps, getIn, Field } from "formik";
 import * as yup from "yup";
 
-// const validationSchema = yup.object({
-// 	processes: yup
-// 		.array()
-// 		.of(yup.object().shape({ 
-// 			process: yup.string().required(),
-// 			burstTime: yup.string().required() ,
-// 			arrivalTime: yup.string().required() ,
-// 			priority: yup.string().required()  })),
-// });
+const validationSchema = yup.object({
+	processes: yup
+		.array()
+		.of(yup.object().shape({ 
+			burstTime: yup.string().required("Required field!") ,
+			arrivalTime: yup.string().required("Required field!")})),
+});
 
 interface Props {
 	inputField?: any;
@@ -34,14 +32,13 @@ interface Props {
 }
 
 const Input = ({ field, label, form: { errors } }: any) => {
-	const errorMessage = getIn(errors, field.name);
+	const errorMessage = getIn(errors, field?.name);
 
 	return (
-		<>
-			<TextField {...field} label={label} variant="filled" />
-			{/* TODO: style below error message to let it work for validationSchema */}
-			{errorMessage && <div style={{ color: "red" }}>{errorMessage}</div>}
-		</>
+		<div>
+			<TextField {...field} label={label} variant="filled"/>
+			{errorMessage && <div style={{ color: "red", paddingLeft:"10px"}}>{errorMessage}</div>}
+		</div>
 	);
 };
 
@@ -56,7 +53,7 @@ const Forms: React.FC<Props> = (props) => {
 			<Formik
 				initialValues={initialInputField}
 				onSubmit={(data) => handleSubmitForm(data)}
-				// validationSchema={validationSchema}
+				validationSchema={validationSchema}
 			>
 				{({ values, handleSubmit, isSubmitting }) => (
 					<Form onSubmit={handleSubmit}>
@@ -84,12 +81,8 @@ const Forms: React.FC<Props> = (props) => {
 									<div className={classes.root}>
 										{map(values.processes, (data, index: number) => {
 											return (
-												<div key={index}>
-													<Field
-														label="Process"
-														name={`processes[${index}].process`}
-														component={Input}
-													/>
+												<div key={index} className={classes.formContainer}>
+													<h1>P{index}: </h1>
 													<Field
 														label="Burst Time"
 														name={`processes[${index}].burstTime`}

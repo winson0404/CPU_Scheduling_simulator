@@ -9,6 +9,10 @@ const useStyles = makeStyles((theme) => ({
     generateButton: {
         margin: theme.spacing(1),
     },
+	formContainer:{
+		display: "flex",
+		flexDirection: "row"
+	}
 }));
 
 export default useStyles;
