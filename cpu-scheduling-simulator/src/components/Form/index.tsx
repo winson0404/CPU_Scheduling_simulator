@@ -19,7 +19,9 @@ const validationSchema = yup.object({
 		.array()
 		.of(yup.object().shape({ 
 			burstTime: yup.string().required("Required field!") ,
-			arrivalTime: yup.string().required("Required field!")})),
+			arrivalTime: yup.string().required("Required field!"),
+			priority: yup.string().required("Required field!"),
+		})),
 });
 
 interface Props {
@@ -69,7 +71,7 @@ const Forms: React.FC<Props> = (props) => {
 												process: "",
 												burstTime: "",
 												arrivalTime: "",
-												priority: "",
+												priority: "0",
 											})
 										}
 										className={classes.generateButton}

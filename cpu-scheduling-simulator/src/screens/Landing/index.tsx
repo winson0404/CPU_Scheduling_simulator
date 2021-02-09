@@ -8,7 +8,7 @@ import { useStyles } from "./style";
 import Container from "@material-ui/core/Container";
 import Forms from "../../components/Form";
 import Tables from "../../components/Table";
-import {NonPreemptiveSJF} from "../../components";
+import Content from "../../components/Content";
 import { FormInput } from "../../types";
 import { Divider } from "@material-ui/core";
 import {
@@ -27,10 +27,10 @@ const Landing: React.FC = () => {
 				process: "",
 				burstTime: "",
 				arrivalTime: "",
-				priority: "",
+				priority: "0",
 			},
 		],
-		quantumValue: "",
+		quantumValue: "2",
 	};
 
 	const [gotData, setGotData] = useState<boolean>(false);
@@ -92,7 +92,14 @@ const Landing: React.FC = () => {
 				{gotData ? (
 					<>
 						<Tables inputField={inputField} />
-						<NonPreemptiveSJF data={nonPreemptiveSJF(inputField.processes)}/>
+						<Content data={nonPreemptiveSJF(inputField.processes)} title= "Non Preemptive SJF:"/>
+						<Content data={preemptiveSJF(inputField.processes)} title= "Preemptive SJF:"/>
+						<Content data={nonPreemptivePriority(inputField.processes)} title= "Non Preemptive Priority:"/>
+						<Content data={preemptivePriority(inputField.processes)} title= "Preemptive Priority:"/>
+						<Content data={roundRobin(inputField.processes, parseInt(inputField.quantumValue))} title= {`Round Robin (Quantun = ${inputField?.quantumValue}):`}/>
+						
+						{/* {console.log("non preemptive sjf==>", nonPreemptiveSJF(inputField.processes))}
+						{console.log("preemptiveSJF sjf==>", preemptiveSJF(inputField.processes))} */}
 					</>
 				) : null}
 			</Container>

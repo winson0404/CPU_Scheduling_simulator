@@ -128,6 +128,5 @@ export const preemptivePriority = (data: any) => {
 		turnAround: turnaround,
 		waiting: waiting
 	};
-
 	return output;
 };
