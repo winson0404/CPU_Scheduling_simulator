@@ -70,8 +70,8 @@ export const nonPreemptiveSJF = (data: any) => {
 	const output = {
 		processSequence: firstLine,
 		timeSequence: secondLine,
-		avgTurnAround: avgTurnAround,
-		avgWaiting: avgWaiting,
+		avgTurnAround: avgTurnAround.toFixed(4),
+		avgWaiting: avgWaiting.toFixed(4),
 		turnAround: turnaround,
 		waiting: waiting
 	};
