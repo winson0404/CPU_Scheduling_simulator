@@ -96,7 +96,7 @@ const Landing: React.FC = () => {
 						<Content data={preemptiveSJF(inputField.processes)} title= "Preemptive SJF:"/>
 						<Content data={nonPreemptivePriority(inputField.processes)} title= "Non Preemptive Priority:"/>
 						<Content data={preemptivePriority(inputField.processes)} title= "Preemptive Priority:"/>
-						<Content data={roundRobin(inputField.processes, parseInt(inputField.quantumValue))} title= {`Round Robin (Quantun = ${inputField?.quantumValue}):`}/>
+						<Content data={roundRobin(inputField.processes, parseInt(inputField.quantumValue))} title= {`Round Robin (Quantum = ${inputField?.quantumValue}):`}/>
 						
 						{/* {console.log("non preemptive sjf==>", nonPreemptiveSJF(inputField.processes))}
 						{console.log("preemptiveSJF sjf==>", preemptiveSJF(inputField.processes))} */}

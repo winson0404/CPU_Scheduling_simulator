@@ -30,6 +30,11 @@ const Content: React.FC<Props> = (props) => {
 					chartType="Timeline"
 					loader={<div>Loading Chart</div>}
 					data={structureBuilder(data, title)}
+					options={{
+						timeline: {
+							showRowLabels: false
+						},
+					}}
 					rootProps={{ "data-testid": "3" }}
 				/>
 				<Typography
