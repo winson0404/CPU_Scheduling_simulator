@@ -64,7 +64,7 @@ export const nonPreemptivePriority = (data: any) => {
         waiting[minIndex] = turnaround[minIndex] - initialBurst[minIndex];
         burst[minIndex] = 0;
 
-        firstLine.push(minIndex.toString());
+        firstLine.push("P"+minIndex.toString());
         secondLine.push(currentTime.toString());
     }
 
@@ -80,8 +80,10 @@ export const nonPreemptivePriority = (data: any) => {
 	const output = {
 		processSequence: firstLine,
 		timeSequence: secondLine,
-		avgTurnAround: avgTurnAround,
-		avgWaiting: avgWaiting,
+		avgTurnAround: avgTurnAround.toFixed(2),
+		avgWaiting: avgWaiting.toFixed(2),
+		turnAround: turnaround,
+		waiting: waiting
 	};
 
 	return output;

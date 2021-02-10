@@ -8,9 +8,16 @@ import { useStyles } from "./style";
 import Container from "@material-ui/core/Container";
 import Forms from "../../components/Form";
 import Tables from "../../components/Table";
+import Content from "../../components/Content";
 import { FormInput } from "../../types";
 import { Divider } from "@material-ui/core";
-import {nonPreemptiveSJF,preemptiveSJF,nonPreemptivePriority, preemptivePriority, roundRobin} from "./algorithms"
+import {
+	nonPreemptiveSJF,
+	preemptiveSJF,
+	nonPreemptivePriority,
+	preemptivePriority,
+	roundRobin,
+} from "./algorithms";
 
 const Landing: React.FC = () => {
 	const classes = useStyles();
@@ -20,10 +27,10 @@ const Landing: React.FC = () => {
 				process: "",
 				burstTime: "",
 				arrivalTime: "",
-				priority: "",
+				priority: "0",
 			},
 		],
-		quantumValue: "",
+		quantumValue: "2",
 	};
 
 	const [gotData, setGotData] = useState<boolean>(false);
@@ -81,12 +88,20 @@ const Landing: React.FC = () => {
 					inputField={inputField}
 					handleSubmitForm={handleSubmitForm}
 				/>
-				<Divider variant="middle" className= {classes.divider}/>
-				{gotData ? 
-				<>
-					<Tables inputField={inputField} />
-					{console.log(roundRobin(inputField.processes, parseInt(inputField.quantumValue)))}
-				</> : null}
+				<Divider variant="middle" className={classes.divider} />
+				{gotData ? (
+					<>
+						<Tables inputField={inputField} />
+						<Content data={nonPreemptiveSJF(inputField.processes)} title= "Non Preemptive SJF:"/>
+						<Content data={preemptiveSJF(inputField.processes)} title= "Preemptive SJF:"/>
+						<Content data={nonPreemptivePriority(inputField.processes)} title= "Non Preemptive Priority:"/>
+						<Content data={preemptivePriority(inputField.processes)} title= "Preemptive Priority:"/>
+						<Content data={roundRobin(inputField.processes, parseInt(inputField.quantumValue))} title= {`Round Robin (Quantum = ${inputField?.quantumValue}):`}/>
+						
+						{/* {console.log("non preemptive sjf==>", nonPreemptiveSJF(inputField.processes))}
+						{console.log("preemptiveSJF sjf==>", preemptiveSJF(inputField.processes))} */}
+					</>
+				) : null}
 			</Container>
 		</>
 	);

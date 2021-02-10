@@ -87,7 +87,7 @@ export const preemptiveSJF = (data: any) => {
         }
         if(changed)
         {
-            firstLine.push((previousProcess).toString());
+            firstLine.push("P"+(previousProcess).toString());
             if(true)
             {
                 secondLine.push(currentTime.toString());
@@ -114,8 +114,10 @@ export const preemptiveSJF = (data: any) => {
 	const output = {
 		processSequence: firstLine,
 		timeSequence: secondLine,
-		avgTurnAround: avgTurnAround,
-		avgWaiting: avgWaiting,
+		avgTurnAround: avgTurnAround.toFixed(2),
+		avgWaiting: avgWaiting.toFixed(2),
+		turnAround: turnaround,
+		waiting: waiting
 	};
 
 	return output;

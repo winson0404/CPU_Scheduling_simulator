@@ -34,7 +34,7 @@ int main()
 
     std::cout << "\n";
 
-    round_robin(numProcess, 3, burst, arrival);
+    round_robin(numProcess, 2, burst, arrival);
     preemptive_sjf(numProcess, burst, arrival);
     non_preemptive_sjf(numProcess, burst, arrival);
     non_preemptive_priority(numProcess, burst, arrival, priority);

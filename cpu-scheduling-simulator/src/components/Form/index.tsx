@@ -19,7 +19,9 @@ const validationSchema = yup.object({
 		.array()
 		.of(yup.object().shape({ 
 			burstTime: yup.string().required("Required field!") ,
-			arrivalTime: yup.string().required("Required field!")})),
+			arrivalTime: yup.string().required("Required field!"),
+			priority: yup.string().required("Required field!"),
+		})),
 });
 
 interface Props {
@@ -69,7 +71,7 @@ const Forms: React.FC<Props> = (props) => {
 												process: "",
 												burstTime: "",
 												arrivalTime: "",
-												priority: "",
+												priority: "0",
 											})
 										}
 										className={classes.generateButton}
@@ -82,7 +84,7 @@ const Forms: React.FC<Props> = (props) => {
 										{map(values.processes, (data, index: number) => {
 											return (
 												<div key={index} className={classes.formContainer}>
-													<h1>P{index}: </h1>
+													<h2>P{index}: </h2>
 													<Field
 														label="Burst Time"
 														name={`processes[${index}].burstTime`}

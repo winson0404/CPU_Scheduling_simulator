@@ -45,7 +45,6 @@ export const nonPreemptiveSJF = (data: any) => {
 		let minIndex = 0;
 		for (let i = 0; i < numProcess; i++) {
 			if (arrived[i] !== 0 && arrived[i] < minBurst) {
-				console.log("im here")
 				minBurst = arrived[i];
 				minIndex = i;
 			}
@@ -55,7 +54,7 @@ export const nonPreemptiveSJF = (data: any) => {
 		waiting[minIndex] = turnaround[minIndex] - initialBurst[minIndex];
 		burst[minIndex] = 0;
 
-		firstLine.push((minIndex).toString());
+		firstLine.push("P"+(minIndex).toString());
 		secondLine.push(currentTime.toString());
 	}
 
@@ -71,8 +70,10 @@ export const nonPreemptiveSJF = (data: any) => {
 	const output = {
 		processSequence: firstLine,
 		timeSequence: secondLine,
-		avgTurnAround: avgTurnAround,
-		avgWaiting: avgWaiting,
+		avgTurnAround: avgTurnAround.toFixed(2),
+		avgWaiting: avgWaiting.toFixed(2),
+		turnAround: turnaround,
+		waiting: waiting
 	};
 
 	return output;
