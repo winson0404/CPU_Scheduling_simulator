@@ -30,6 +30,7 @@ export const roundRobin = (data: any, quantum:number) => {
 		totalTime += burst[i];
 	}
 	secondLine.push(minArrival.toString());
+    totalTime += minArrival;
 	
     let temp_pr:number[] =  new Array();
     let temp_burst:number[] = new Array();
@@ -113,7 +114,7 @@ export const roundRobin = (data: any, quantum:number) => {
             firstLine.push("P"+(q[0] === undefined?0:q[0])?.toString());
             if(true)
             {
-                secondLine.push(currentTime.toString());
+                secondLine.push((currentTime).toString());
             }
             q.shift();
             count = 0;
@@ -124,13 +125,16 @@ export const roundRobin = (data: any, quantum:number) => {
             firstLine.push("P"+(q[0] === undefined?0:q[0])?.toString());
             if(true)
             {
-                secondLine.push(currentTime.toString());
+                secondLine.push((currentTime).toString());
             }
             q.push(q[0] === undefined?0:q[0]);
             q.shift();
             count = 0;
         }
-        count++;
+        if(currentTime >= minArrival)
+        {
+            count++;
+        }
     }
 
 	let avgTurnAround = 0;
