@@ -2,6 +2,7 @@ import useStyles from "../algoStyles";
 import { Chart } from "react-google-charts";
 import { structureBuilder } from "../structureBuilder";
 import { Container, Typography, Divider } from "@material-ui/core";
+import { AnyNaptrRecord } from "dns";
 
 interface Props {
 	data: any;
@@ -11,6 +12,20 @@ interface Props {
 const Content: React.FC<Props> = (props) => {
 	const classes = useStyles();
 	const { data, title } = props;
+	let totalWaiting = 0;
+	let totalTurnaround = 0;
+	const getTotalWaiting = () => {
+		data?.waiting?.forEach((element:any)=>{
+			totalWaiting+= element;
+		});
+	}
+	const getTotalTurnaround = () => {
+		data?.turnAround?.forEach((element:any)=>{
+			totalTurnaround+= element;
+		});
+	}
+	getTotalWaiting();
+	getTotalTurnaround();
 	return (
 		<Container component="main" className={classes.heroContent}>
 			<Divider variant="middle" className={classes.algoDivider} />
@@ -44,8 +59,10 @@ const Content: React.FC<Props> = (props) => {
 				component="p"
 				className={classes.header}
 			>
-				Waiting Time (P0 to P{(data.waiting.length - 1)}): {data.waiting.toString().replace(/,/g,", ")} <br/>
-				Turnaround Time (P0 to P{(data.waiting.length - 1)}): {data.turnAround.toString().replace(/,/g,", ")}<br/>
+				Waiting Time (P1 to P{(data.waiting.length)}): {data.waiting.toString().replace(/,/g,", ")} <br/>
+				Turnaround Time (P1 to P{(data.waiting.length)}): {data.turnAround.toString().replace(/,/g,", ")}<br/>
+				Total Waiting Time: {totalWaiting.toString()} <br/>
+				Total Turnaround Time: {totalTurnaround.toString()} <br/>
 				Average Waiting Time: {data.avgWaiting.toString()} <br/>
 				Average Turnaround Time: {data.avgTurnAround.toString()}
 			</Typography>
